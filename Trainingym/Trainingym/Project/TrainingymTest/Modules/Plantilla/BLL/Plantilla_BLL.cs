@@ -102,7 +102,14 @@ namespace Test.Project.BLL
             try
             {
                 using (var context = new TestContext())
-                {
+                {   
+                    if (member.IsNullOrEmpty() && product.IsNullOrEmpty())
+                    {
+                        response.SendError(-1, "Se debe cargar al menos un dato");
+
+                        return response;
+                    }         
+                
                     if (!member.IsNullOrEmpty())
                     {
                         Member_Model memberModel = new Member_Model
