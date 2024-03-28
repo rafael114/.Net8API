@@ -123,7 +123,7 @@ namespace Test.Project.Model
         /// 
         /// </summary>
         /// 
-        
+        [MaxLength(2)]
         public DateTime orderDate { get; set; }
 
         /// <summary>

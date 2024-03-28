@@ -83,10 +83,6 @@ namespace Test.Project.BLL
             }
             return response;
         }
-        #endregion
-
-        #region "PUT"
-        #endregion
 
         /// <summary>
         /// Autor: Rafael Zambrano
@@ -102,14 +98,14 @@ namespace Test.Project.BLL
             try
             {
                 using (var context = new TestContext())
-                {   
+                {
                     if (member.IsNullOrEmpty() && product.IsNullOrEmpty())
                     {
                         response.SendError(-1, "Se debe cargar al menos un dato");
 
                         return response;
-                    }         
-                
+                    }
+
                     if (!member.IsNullOrEmpty())
                     {
                         Member_Model memberModel = new Member_Model
@@ -134,8 +130,8 @@ namespace Test.Project.BLL
                 }
 
 
-                response.SendResponseOK(0,"Informacion cargada con exito");
-                    
+                response.SendResponseOK(0, "Informacion cargada con exito");
+
             }
             catch (Exception ex)
             {
@@ -143,6 +139,61 @@ namespace Test.Project.BLL
             }
             return response;
         }
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Carga informacion de prueba en la base de datos
+        /// </summary>
+        /// <param name="product"></param>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public async Task<AnonymousResponse_Model> LoadOrderInfo(long memberId, long productId)
+        {
+            response = new AnonymousResponse_Model();
+            try
+            {
+                using (var context = new TestContext())
+                {
+                    if (memberId == null || memberId == 0)
+                    {
+                        response.SendError(-2, "ingrese un usuario valido");
+                    }
+                    else if (productId == null || productId == 0)
+                    {
+                        response.SendError(-2, "ingrese un producto valido");
+                    }
+                    else
+                    {
+                        context.orders.Add(new Order_Model
+                        {
+                            memberId = memberId
+                            ,
+                            productId = productId
+                            ,
+                            orderDate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+                        }); ;
+                    }
+
+                    context.SaveChanges();
+                }
+
+
+                response.SendResponseOK(0, "Informacion cargada con exito");
+
+            }
+            catch (Exception ex)
+            {
+                response.data = "ocurrio una excepción en la petición";
+            }
+            return response;
+        }
+        #endregion
+
+        #region "PUT"
+        #endregion
+
+
 
 
         #endregion

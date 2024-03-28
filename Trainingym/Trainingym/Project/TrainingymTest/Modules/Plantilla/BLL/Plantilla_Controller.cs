@@ -17,7 +17,7 @@ namespace Test.Project.Controller
 
     [ApiController]
     [Route("/Api/V1/Test")]
-    public class Plantilla_Controller : BaseController
+    public class Test_Controller : BaseController
     {
         #region "Constantes"
         #endregion
@@ -70,6 +70,25 @@ namespace Test.Project.Controller
             response = new AnonymousResponse_Model();
 
             response = bll.LoadDemoInfo(product, member).Result;
+
+            return GenericReturnResponse(response);
+
+        }
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: inserta informacion de pruebas en base de datos
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("LoadOrder")]
+        public async Task<IActionResult> loadOrder(long product, long member)
+        {
+            Plantilla_BLL bll = new Plantilla_BLL();
+            response = new AnonymousResponse_Model();
+
+            response = bll.LoadOrderInfo(member, product).Result;
 
             return GenericReturnResponse(response);
 
