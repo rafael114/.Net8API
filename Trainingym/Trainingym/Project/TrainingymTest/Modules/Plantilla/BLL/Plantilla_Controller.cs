@@ -49,7 +49,22 @@ namespace Test.Project.Controller
             return GenericReturnResponse(response);
         }
 
-     
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Crea base de datos con modelos de entidades actuales
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("userLastOrder")]
+        public async Task<IActionResult> userLastOrder(long member)
+        {
+            Plantilla_BLL bll = new Plantilla_BLL();
+            response = bll.UserlastOrder(member).Result;
+
+
+            return GenericReturnResponse(response);
+        }
 
         #endregion
 

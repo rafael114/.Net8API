@@ -5,6 +5,7 @@ using Project.Util;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Test.Project.BLL
 {
@@ -53,6 +54,58 @@ namespace Test.Project.BLL
                 
             }
             return response;
+        }
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Consulta ultima orden de un usuario en especifico
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public async Task<AnonymousResponse_Model> UserlastOrder(long member)
+        {
+            Task<AnonymousResponse_Model> task = new Task<AnonymousResponse_Model>(() => 
+            {
+                response = new AnonymousResponse_Model();
+
+                try
+                {
+                    using (var context = new TestContext())
+                    {
+                        var lastOrder = context.orders
+                                               .Where(x => x.memberId == member)
+                                               .OrderByDescending(x => x.orderDate)
+                                               .Select(x => new {
+                                                                    NroOrden = x.id,
+                                                                    FechaPedido = x.orderDate,
+                                                                    Miembro = x.memberId, 
+                                                                    Producto = x.productId}).FirstOrDefault();
+
+                        if (lastOrder == null)
+                        {
+                            response.SendError(-3, "Ha ocurrido un error en la peticion");
+                        }
+                        else
+                        {
+                            response.SendResponseOK(0, "", lastOrder);
+                        }
+                    }
+
+                    
+                }
+                catch (Exception ex)
+                {
+                    response.data = "ocurrio una excepcion en la peticion";
+
+                }
+
+                return response;
+                
+            });
+            task.Start();
+
+            return await task;
+
         }
         #endregion
 
