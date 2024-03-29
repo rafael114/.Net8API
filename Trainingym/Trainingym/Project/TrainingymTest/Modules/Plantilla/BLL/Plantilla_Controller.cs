@@ -12,9 +12,6 @@ namespace Test.Project.Controller
     /// Descripcion: *breve descripcion del funcionamiento de la clase*
     /// </summary>
     /// 
-
-
-
     [ApiController]
     [Route("/Api/V1/Test")]
     public class Test_Controller : BaseController
@@ -65,6 +62,25 @@ namespace Test.Project.Controller
 
             return GenericReturnResponse(response);
         }
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Consulta endpoint de JsonPlaceholder y devuelve los objetos con el id mas repetido
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("JsonManipulation")]
+        public async Task<IActionResult> JsonManipulation()
+        {
+            Plantilla_BLL bll = new Plantilla_BLL();
+            response = bll.JsonManipulation().Result;
+
+
+            return GenericReturnResponse(response);
+        }
+
+
 
         #endregion
 

@@ -1,14 +1,9 @@
-﻿
-
-using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Data.SqlClient;
+using BdV.Project.Base;
 using Dapper;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Newtonsoft.Json;
-using Project.Base;
 
-namespace BdV.Project.Base
+namespace Project.Base
 {
     /// <summary>
     /// Autor: Rafael Zambrano

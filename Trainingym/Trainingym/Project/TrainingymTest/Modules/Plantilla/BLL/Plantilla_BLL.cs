@@ -1,11 +1,13 @@
-﻿using System.Net;
-using Test.Project.Model;
+﻿using Test.Project.Model;
 using Project.Base;
 using Project.Util;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore.Internal;
+using RestSharp;
+using Trainingym.Project.TrainingymTest.Modules.Plantilla.Model;
+using BdV.Project.Base;
+
+
 
 namespace Test.Project.BLL
 {
@@ -106,6 +108,53 @@ namespace Test.Project.BLL
 
             return await task;
 
+        }
+
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Crea base de datos con modelo de entidades actuales
+        /// </summary>
+        /// <param name="isList"></param>
+        /// <param name="isError"></param>
+        /// <returns></returns>
+        public async Task<AnonymousResponse_Model> JsonManipulation()
+        {
+            response = new AnonymousResponse_Model();
+
+            try
+            {
+                string url = "https://jsonplaceholder.typicode.com//comments";
+
+                RestClient client = new RestClient(url);
+                var request = new RestRequest();
+
+
+                var json = client.ExecuteGet(request);
+
+                if (json.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+
+                    List<Json_Model> responseString = Helper.DeserializeObject<List<Json_Model>>(json.Content);
+
+                    var obj = responseString.GroupBy(comment => comment.postId)
+                                                    .Select(group => new { PostId = group.Key, CommentCount = group.Count() })
+                                                    .OrderByDescending(pcc => pcc.CommentCount) 
+                                                    .Take(3).ToList(); 
+
+                    
+                    List<int> topList = obj.Select(x => x.PostId).ToList();
+
+                    response.SendResponseOK(0, "", topList);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.data = "ocurrio una excepcion en la peticion";
+
+            }
+            return response;
         }
         #endregion
 
