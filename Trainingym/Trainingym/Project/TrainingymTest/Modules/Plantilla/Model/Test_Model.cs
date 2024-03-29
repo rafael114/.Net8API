@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Test.Project.Model
 {
-	/// <summary>
-	/// Autor: Rafael Zambrano
-	/// Fecha: 28/3/2024
-	/// Descripcion: Clase con entidades de la base de datos
-	/// </summary>
+    /// <summary>
+    /// Autor: Rafael Zambrano
+    /// Fecha: 28/3/2024
+    /// Descripcion: Clase con entidades de la base de datos
+    /// </summary>
+    /// 
 	public class Member_Model
     {
         #region "Constantes"
@@ -49,6 +50,7 @@ namespace Test.Project.Model
     /// Fecha: 28/3/2024
     /// Descripcion: Clase con modelo tipo plantilla para modelo de pruebavuel
     /// </summary>
+    /// 
     public class Product_Model
     {
         #region "Constantes"
@@ -90,6 +92,7 @@ namespace Test.Project.Model
     /// Fecha: 28/3/2024
     /// Descripcion: Clase con modelo tipo plantilla para modelo de prueba
     /// </summary>
+    /// 
     public class Order_Model
     {
         #region "Constantes"
@@ -122,8 +125,7 @@ namespace Test.Project.Model
         /// <summary>
         /// 
         /// </summary>
-        /// 
-        [MaxLength(2)]
+        ///         
         public DateTime orderDate { get; set; }
 
         /// <summary>

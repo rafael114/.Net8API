@@ -37,15 +37,15 @@ namespace Test.Project.Controller
         /// <returns></returns>
         [HttpGet]
         [Route("CreateDb")]
-        public async Task<IActionResult> CreateDb() 
+        public async Task<IActionResult> CreateDb(bool isSQLServer = true) 
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
-            response = bll.CreateDB().Result;
+            Test_BLL bll = new Test_BLL();
+            response = bll.CreateDB(isSQLServer).Result;
 
 
             return GenericReturnResponse(response);
         }
-
+           
         /// <summary>
         /// Autor: Rafael Zambrano
         /// Fecha: 28/3/2024
@@ -54,10 +54,10 @@ namespace Test.Project.Controller
         /// <returns></returns>
         [HttpGet]
         [Route("userLastOrder")]
-        public async Task<IActionResult> userLastOrder(long member)
+        public async Task<IActionResult> userLastOrder(long member, bool isSQLServer = true)
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
-            response = bll.UserlastOrder(member).Result;
+            Test_BLL bll = new Test_BLL();
+            response = bll.UserlastOrder(member, isSQLServer).Result;
 
 
             return GenericReturnResponse(response);
@@ -73,9 +73,8 @@ namespace Test.Project.Controller
         [Route("JsonManipulation")]
         public async Task<IActionResult> JsonManipulation()
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
+            Test_BLL bll = new Test_BLL();
             response = bll.JsonManipulation().Result;
-
 
             return GenericReturnResponse(response);
         }
@@ -90,7 +89,7 @@ namespace Test.Project.Controller
         [Route("CommentCount")]
         public async Task<IActionResult> CommentCount()
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
+            Test_BLL bll = new Test_BLL();
             response = bll.CommentCount().Result;
 
 
@@ -110,12 +109,12 @@ namespace Test.Project.Controller
         /// <returns></returns>
         [HttpPost]
         [Route("LoadDemoInfo")]
-        public async Task<IActionResult> LoadDemoInfo(string product = "", string member = "")
+        public async Task<IActionResult> LoadDemoInfo(string product = "", string member = "", bool isSQLServer = true)
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
+            Test_BLL bll = new Test_BLL();
             response = new AnonymousResponse_Model();
 
-            response = bll.LoadDemoInfo(product, member).Result;
+            response = bll.LoadDemoInfo(product, member, isSQLServer).Result;
 
             return GenericReturnResponse(response);
 
@@ -129,12 +128,12 @@ namespace Test.Project.Controller
         /// <returns></returns>
         [HttpPost]
         [Route("LoadOrder")]
-        public async Task<IActionResult> loadOrder(long product, long member)
+        public async Task<IActionResult> loadOrder(long product, long member, bool isSQLServer = true)
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
+            Test_BLL bll = new Test_BLL();
             response = new AnonymousResponse_Model();
 
-            response = bll.LoadOrderInfo(member, product).Result;
+            response = bll.LoadOrderInfo(member, product, isSQLServer).Result;
 
             return GenericReturnResponse(response);
 
@@ -151,12 +150,12 @@ namespace Test.Project.Controller
         /// <returns></returns>
         [HttpPut]
         [Route("UpdateDb")]
-        public async Task<IActionResult> UpdateDb()
+        public async Task<IActionResult> UpdateDb(bool isSQLServer = true)
         {
-            Plantilla_BLL bll = new Plantilla_BLL();
+            Test_BLL bll = new Test_BLL();
             response = new AnonymousResponse_Model();
 
-            response = bll.UpdateDb().Result;
+            response = bll.UpdateDb(isSQLServer).Result;
 
             return GenericReturnResponse(response);
 

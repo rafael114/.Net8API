@@ -6,9 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using RestSharp;
 using Trainingym.Project.TrainingymTest.Modules.Plantilla.Model;
 using BdV.Project.Base;
-using System.Xml.Linq;
-using System.Collections.Generic;
-
+using SQLite;
 
 
 namespace Test.Project.BLL
@@ -18,12 +16,12 @@ namespace Test.Project.BLL
     /// Fecha: 28/3/2024
     /// Descripcion: controlador desarrollado para la prueba de Trainingym
     /// </summary>
-    public class Plantilla_BLL : BaseController
+    public class Test_BLL : BaseController
     {
         #region "Constantes"
         #endregion
 
-        #region "Variables"
+        #region "Variables"    
         #endregion
 
         #region "Propiedades"
@@ -41,14 +39,14 @@ namespace Test.Project.BLL
         /// <param name="isList"></param>
         /// <param name="isError"></param>
         /// <returns></returns>
-        public async Task<AnonymousResponse_Model> CreateDB()
+        public async Task<AnonymousResponse_Model> CreateDB(bool isSQLServer)
         {
             response = new AnonymousResponse_Model();
             try
             {
-                using (var context = new TestContext())
+                using (var context = new TestContext(isSQLServer))
                 {
-                    context.Database.EnsureCreated();
+                    var resp = context.Database.EnsureCreated();
                 }
 
             }
@@ -66,7 +64,7 @@ namespace Test.Project.BLL
         /// Descripcion: Consulta ultima orden de un usuario en especifico
         /// <param name="member"></param>
         /// <returns></returns>
-        public async Task<AnonymousResponse_Model> UserlastOrder(long member)
+        public async Task<AnonymousResponse_Model> UserlastOrder(long member, bool isSQLServer)
         {
             Task<AnonymousResponse_Model> task = new Task<AnonymousResponse_Model>(() => 
             {
@@ -74,7 +72,7 @@ namespace Test.Project.BLL
 
                 try
                 {
-                    using (var context = new TestContext())
+                    using (var context = new TestContext(isSQLServer))
                     {
                         var lastOrder = context.orders
                                                .Where(x => x.memberId == member)
@@ -206,6 +204,7 @@ namespace Test.Project.BLL
             }
             return response;
         }
+
         #endregion
 
         #region "POST"        
@@ -218,13 +217,12 @@ namespace Test.Project.BLL
         /// <param name="isList"></param>
         /// <param name="isError"></param>
         /// <returns></returns>
-        public async Task<AnonymousResponse_Model> UpdateDb()
+        public async Task<AnonymousResponse_Model> UpdateDb(bool isSQLServer)
         {
             response = new AnonymousResponse_Model();
             try
-            {
-                
-                using (var context = new TestContext())
+            {                
+                using (var context = new TestContext(isSQLServer))
                 {                    
                     context.Database.Migrate();                                    
                 }
@@ -244,12 +242,12 @@ namespace Test.Project.BLL
         /// <param name="product"></param>
         /// <param name="member"></param>
         /// <returns></returns>
-        public async Task<AnonymousResponse_Model> LoadDemoInfo(string product = "", string member = "")
+        public async Task<AnonymousResponse_Model> LoadDemoInfo(string product, string member, bool isSQLServer)
         {
             response = new AnonymousResponse_Model();
             try
             {
-                using (var context = new TestContext())
+                using (var context = new TestContext(isSQLServer))
                 {
                     if (member.IsNullOrEmpty() && product.IsNullOrEmpty())
                     {
@@ -300,12 +298,12 @@ namespace Test.Project.BLL
         /// <param name="product"></param>
         /// <param name="member"></param>
         /// <returns></returns>
-        public async Task<AnonymousResponse_Model> LoadOrderInfo(long memberId, long productId)
+        public async Task<AnonymousResponse_Model> LoadOrderInfo(long memberId, long productId, bool isSQLServer)
         {
             response = new AnonymousResponse_Model();
             try
             {
-                using (var context = new TestContext())
+                using (var context = new TestContext(isSQLServer))
                 {
                     if (memberId == null || memberId == 0)
                     {
@@ -345,9 +343,6 @@ namespace Test.Project.BLL
         #region "PUT"
         #endregion
 
-
-
-
         #endregion
 
         #region "Metodos o Constructores"
@@ -355,7 +350,7 @@ namespace Test.Project.BLL
         /// <summary>
         /// 
         /// </summary>
-        public Plantilla_BLL()
+        public Test_BLL()
         {
 
         }
@@ -366,7 +361,7 @@ namespace Test.Project.BLL
         /// <summary>
         /// 
         /// </summary>
-        ~Plantilla_BLL()
+        ~Test_BLL()
         {
 
         }

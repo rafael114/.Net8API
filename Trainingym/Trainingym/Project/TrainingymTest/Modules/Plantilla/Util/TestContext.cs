@@ -8,12 +8,13 @@ namespace Project.Util
     /// <summary>
     /// 
     /// </summary>
-    public class TestContext : DbContext
+    public class TestContext(bool isSQLServer) : DbContext
     {
         #region "Constantes"
         #endregion
 
         #region "Variables"
+        public string dbPath = $"Data Source={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Test.sqlite")}";
         #endregion
 
         #region "Propiedades"
@@ -29,7 +30,15 @@ namespace Project.Util
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(HelperResponse.Configuration("cnxSQLSERVER")); 
+            if (isSQLServer)
+            {
+                optionsBuilder.UseSqlServer(HelperResponse.Configuration("cnxSQLSERVER"));
+            }
+            else
+            {
+                optionsBuilder.UseSqlite(HelperResponse.Configuration(dbPath));
+            }
+             
         }
         #endregion
 
