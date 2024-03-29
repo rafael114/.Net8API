@@ -80,7 +80,22 @@ namespace Test.Project.Controller
             return GenericReturnResponse(response);
         }
 
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: Consulta endpoint de JsonPlaceholder y devuelve los objetos con el id mas repetido
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("CommentCount")]
+        public async Task<IActionResult> CommentCount()
+        {
+            Plantilla_BLL bll = new Plantilla_BLL();
+            response = bll.CommentCount().Result;
 
+
+            return GenericReturnResponse(response);
+        }
 
         #endregion
 

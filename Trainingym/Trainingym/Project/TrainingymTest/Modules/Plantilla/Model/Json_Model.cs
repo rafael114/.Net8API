@@ -28,4 +28,20 @@
         public string body { get; set; }        
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CommentCount_Model 
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int postId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int commentCount { get; set; }
+    }
 }

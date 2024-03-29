@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using RestSharp;
 using Trainingym.Project.TrainingymTest.Modules.Plantilla.Model;
 using BdV.Project.Base;
+using System.Xml.Linq;
+using System.Collections.Generic;
 
 
 
@@ -145,6 +147,54 @@ namespace Test.Project.BLL
 
                     
                     List<int> topList = obj.Select(x => x.PostId).ToList();
+
+                    response.SendResponseOK(0, "", topList);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.data = "ocurrio una excepcion en la peticion";
+
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Autor: Rafael Zambrano
+        /// Fecha: 28/3/2024
+        /// Descripcion: funcion que devuelve las publicaciones mas populares y su cantidad de comentarios
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AnonymousResponse_Model> CommentCount()
+        {
+            response = new AnonymousResponse_Model();
+
+            try
+            {
+                string url = "https://jsonplaceholder.typicode.com//comments";
+
+                RestClient client = new RestClient(url);
+                var request = new RestRequest();
+
+
+                var json = client.ExecuteGet(request);
+
+                if (json.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+
+                    List<Json_Model> responseString = Helper.DeserializeObject<List<Json_Model>>(json.Content);
+                                        
+                    var postCommentCounts = responseString.GroupBy(comment => comment.postId)
+                                                    .Select(group => new { PostId = group.Key, CommentCount = group.Count() })
+                                                    .OrderByDescending(pcc => pcc.CommentCount) 
+                                                    .Take(3);
+
+                    List<CommentCount_Model> topList = postCommentCounts.Select(pcc => new CommentCount_Model 
+                    {
+                    postId = pcc.PostId
+                    ,
+                    commentCount = pcc.CommentCount
+                    }).ToList();
 
                     response.SendResponseOK(0, "", topList);
                 }
